@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>图书商城</title>
+    <link rel="stylesheet" href="css/lab4-01-033-index.css">
+</head>
+<body>
+    <div class="header">
+        <div class="logo">
+            <img src="img/logo.png" alt="图书商城logo">
+        </div>
+        <div class="nav">
+            <a href="#">首页</a>
+            <a href="#">图书分类</a>
+            <a href="#">新书上市</a>
+            <a href="#">关于我们</a>
+
+            <input type="checkbox" id="loginToggle">
+            <label for="loginToggle" class="loginBtn">用户登录</label>
+
+            <div class="login-modal">
+                <input type="radio" name="loginTab" id="pwdTab" checked>
+                <input type="radio" name="loginTab" id="codeTab">
+                
+                <div class="tab-header">
+                    <label for="pwdTab" class="pwd-label">密码登录</label>
+                    <span class="line"></span>
+                    <label for="codeTab" class="code-label">验证码登录</label>
+                </div>
+
+                <div class="tab-content">
+                    <div class="form" id="pwdForm">
+                        <input type="text" id="loginUser" placeholder="手机号/昵称/邮箱">
+                        <input type="password" id="loginPwd" placeholder="密码">
+                        <p class="agree">登录即同意<a href="#">用户协议</a>、<a href="#">隐私政策</a></p>
+                        <div class="but">
+                            <input type="button" value="登录" onclick="login()">
+                        </div>
+                    </div>
+
+                    <div class="form" id="codeForm">
+                        <input type="text" placeholder="手机号/昵称/邮箱">
+                        <input type="text" placeholder="验证码">
+                        <button style="width:100%;height:45px;background:#eee;border:none;border-radius:4px;">获取验证码</button>
+                        <div class="but">
+                            <input type="button" value="登录" onclick="login()">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 注册表单（独立、不干扰标签页） -->
+                <div class="form" id="regForm" style="display:none; padding:30px;">
+                    <input type="text" id="regUser" placeholder="用户名">
+                    <input type="password" id="regPwd" placeholder="密码">
+                    <input type="password" id="regPwd2" placeholder="确认密码">
+                    <p class="agree">注册即同意<a href="#">用户协议</a>、<a href="#">隐私政策</a></p>
+                    
+                    <div class="reg" style="margin-bottom:10px;">
+                        <input type="button" value="注册" onclick="register()" style="width:100%;height:45px;background:#e63946;color:white;border:none;border-radius:4px;font-size:18px;cursor:pointer;">
+                    </div>
+                    
+                    <div>
+                        <input type="button" value="返回登录" onclick="backToLogin()" style="width:100%;height:45px;background:#fff;color:#333;border:1px solid #ddd;border-radius:4px;font-size:18px;cursor:pointer;">
+                    </div>
+                </div>
+
+                <div class="register">
+                    <a href="javascript:showReg()">立即注册</a>
+                    <a href="#">忘记密码</a>
+                </div>
+
+                <ul class="footer">
+                    <li><img src="img/wechat.jpg" alt="微信"></li>
+                    <li><img src="img/zhifubao.jpg" alt="支付宝"></li>
+                    <li><img src="img/QQ.jpg" alt="QQ"></li>
+                    <li><img src="img/weibo.jpg" alt="微博"></li>
+                </ul>
+            </div>
+            <!-- 右上角：搜索框 + 购物车 -->
+            <div class="top-right">
+            <div class="search-box">
+                <input type="text" placeholder="输入图书名称搜索...">
+                <button>搜索</button>
+            </div>
+            <div class="cart">
+                <span class="cart-icon">🛒</span>
+                <span class="cart-count">0</span>
+            </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="left">
+            <h3>图书分类</h3>
+            <ul>
+                <li><a href="#">英语类</a></li>
+                <li><a href="#">文学类</a></li>
+                <li><a href="#">地理类</a></li>
+                <li><a href="#">计算机类</a></li>
+                <li><a href="#">其他</a></li>
+            </ul>
+        </div>
+
+        <div class="middle">
+            <h3>图书展示</h3>
+            <div class="book-item">
+                <div class="carousel-wrap">
+                    <img src="img/book1.jpg">
+                    <img src="img/book2.jpg">
+                </div>
+            </div>
+            <h3>热门推荐</h3>
+            <div class="hot">
+                <img src="img/book4.jpg">
+                <img src="img/living.jpg">
+                <img src="img/three bodies.jpg">
+            </div>
+            <h3>新书上市</h3>
+            <table border="1" width="100%">
+                <tr><td>书名</td><td>价格</td></tr>
+                <tr><td>HTML从入门到精通</td><td>59元</td></tr>
+                <tr><td>CSS设计指南</td><td>49元</td></tr>
+            </table>
+        </div>
+
+        <div class="right">
+            <h4>促销信息</h4>
+            <p>全场图书8折优惠</p>
+            <p>满100减20</p>
+            <p>新书限时抢购</p>
+        </div>
+    </div>
+
+<script>
+// 进入注册
+function showReg() {
+    document.querySelector(".tab-content").style.display = "none";
+    document.getElementById("regForm").style.display = "block";
+}
+
+// 返回登录
+function backToLogin() {
+    document.getElementById("regForm").style.display = "none";
+    document.querySelector(".tab-content").style.display = "block";
+    document.getElementById("pwdTab").checked = true;
+}
+
+// 登录
+function login() {
+    let user = document.getElementById("loginUser").value;
+    let pwd = document.getElementById("loginPwd").value;
+    let saveUser = localStorage.getItem("username");
+    let savePwd = localStorage.getItem("password");
+
+    if (!saveUser) {
+        alert("请先注册！");
+        showReg();
+        return;
+    }
+    if (user === saveUser && pwd === savePwd) {
+        alert("登录成功！");
+        document.getElementById("loginToggle").checked = false;
+    } else {
+        alert("账号或密码错误！");
+    }
+}
+
+// 注册
+function register() {
+    let user = document.getElementById("regUser").value;
+    let pwd = document.getElementById("regPwd").value;
+    let pwd2 = document.getElementById("regPwd2").value;
+
+    if (!user || !pwd || !pwd2) {
+        alert("请填写完整信息！");
+        return;
+    }
+    if (pwd !== pwd2) {
+        alert("两次密码不一致！");
+        return;
+    }
+
+    localStorage.setItem("username", user);
+    localStorage.setItem("password", pwd);
+    alert("注册成功！返回登录");
+    backToLogin();
+}
+</script>
+</body>
+</html>
